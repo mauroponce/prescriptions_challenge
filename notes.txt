@@ -1,0 +1,26 @@
+create user prescriptions_backend with password 'prescriptions_backend' createdb;
+
+gem 'dotenv-rails'
+
+bundle exec rails s -p 3001
+"proxy": "http://localhost:3001"
+
+bundle exec rails g model Ingredient name minimum:float maximum:float description
+bundle exec rails g model IngredientClass name ingredient:references
+bundle exec rails g model Formulation name
+bundle exec rails g model FormulationIngredient formulation:references ingredient:references percentage:float
+
+cd client
+yarn add react-autosuggest
+
+si es formulation
+name:
+
+componentupdate trae todos los ingredientes
+con todos sus datos, incluyendo el id,
+y trae todos los formua
+
+
+
+en sugestions
+
