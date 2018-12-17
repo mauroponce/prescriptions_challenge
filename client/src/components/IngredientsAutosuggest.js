@@ -1,6 +1,6 @@
 import React from 'react';
 import Autosuggest from 'react-autosuggest';
-
+import { API } from '../utils/api';
 // https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions#Using_Special_Characters
 function escapeRegexCharacters(str) {
   return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -18,50 +18,10 @@ class IngredientsAutosuggest extends React.Component {
   }
 
   componentDidMount() {
-    // TODO: Fetch from API
-    const data = [
-      {
-        title: 'Ingredients',
-        items: [
-          {
-            id: 1,
-            name: 'Allantoin',
-            minimum: 1,
-            maximum: 2,
-            description: 'Some Allantoin'
-          },
-          {
-            id: 2,
-            name: 'Aloe',
-            minimum: 1,
-            maximum: 2,
-            description: 'Some Aloe'
-          },
-          {
-            id: 9,
-            name: 'Caffeine',
-            minimum: 0.5,
-            maximum: 1.5,
-            description: 'Some coffee'
-          },
-        ]
-      },
-      {
-        title: 'Formulations',
-        items: [
-          {
-            name: 'A Crema 1',
-            ingredient_ids: [2, 9]
-          },
-          {
-            name: 'Crema 2',
-            ingredient_ids: [1, 2]
-          }
-        ]
-      }
-    ];
-
-    this.setState({ data });
+    API.getSuggestions()
+      .then(res => {
+        this.setState({ data: res.data })
+      });
   }
 
   onChange = (_event, { newValue }) => {

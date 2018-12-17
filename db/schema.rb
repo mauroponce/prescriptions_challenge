@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_14_200040) do
+ActiveRecord::Schema.define(version: 2018_12_17_220101) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,6 +37,14 @@ ActiveRecord::Schema.define(version: 2018_12_14_200040) do
     t.float "maximum_percentage"
     t.string "description"
     t.text "classes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "prescriptions", force: :cascade do |t|
+    t.string "patient_name"
+    t.string "address"
+    t.string "dob"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
