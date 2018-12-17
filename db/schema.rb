@@ -31,24 +31,16 @@ ActiveRecord::Schema.define(version: 2018_12_14_200040) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "ingredient_classes", force: :cascade do |t|
-    t.string "name"
-    t.bigint "ingredient_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["ingredient_id"], name: "index_ingredient_classes_on_ingredient_id"
-  end
-
   create_table "ingredients", force: :cascade do |t|
     t.string "name"
-    t.float "minimum"
-    t.float "maximum"
+    t.float "minimum_percentage"
+    t.float "maximum_percentage"
     t.string "description"
+    t.text "classes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   add_foreign_key "formulation_ingredients", "formulations"
   add_foreign_key "formulation_ingredients", "ingredients"
-  add_foreign_key "ingredient_classes", "ingredients"
 end
