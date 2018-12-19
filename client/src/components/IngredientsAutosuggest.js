@@ -54,8 +54,7 @@ class IngredientsAutosuggest extends React.Component {
   }
 
   concatIngredientNames(ingredientIds) {
-    const ingredientsSection = this.state.data[0];
-    return ingredientsSection.items
+    return this.state.data[0].items
       .filter(item => ingredientIds.includes(item.id))
       .map(item => item.name).join(', ')
   }
@@ -92,9 +91,21 @@ class IngredientsAutosuggest extends React.Component {
       suggestions: []
     });
   };
-  onSuggestionSelected(event, { suggestion, suggestionValue, suggestionIndex, sectionIndex, method }) {
-    debugger
-    this.props.onSuggestionSelected();
+
+  handleSuggestionSelected(event, { suggestion, suggestionValue, suggestionIndex, sectionIndex, method }) {
+    let ingredients = [];
+    const isFormula = 'ingredient_ids' in suggestion;
+    if (isFormula) {
+      ingredients = this.state.data[0].items.filter(obj => {
+        return suggestion.ingredient_ids.includes(obj.id)
+      });
+    } else { // one ingredient selected at a time
+      ingredients = [this.state.data[0].items.find(obj => {
+        return suggestion.id === obj.id
+      })];
+    }
+    this.setState({ value: '' }) // clean input
+    this.props.onIngredientsSelected(ingredients, isFormula)
   }
 
   render() {
@@ -119,7 +130,7 @@ class IngredientsAutosuggest extends React.Component {
         renderSectionTitle={this.renderSectionTitle.bind(this)}
         getSectionSuggestions={this.getSectionSuggestions.bind(this)}
         inputProps={inputProps}
-        onSuggestionSelected={this.onSuggestionSelected.bind(this)} />
+        onSuggestionSelected={this.handleSuggestionSelected.bind(this)} />
     );
   }
 }

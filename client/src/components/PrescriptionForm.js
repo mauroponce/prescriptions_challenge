@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { YearPicker, MonthPicker, DayPicker } from 'react-dropdown-date';
 import IngredientsAutosuggest from './IngredientsAutosuggest';
+import SelectedIngredients from './SelectedIngredients';
 
 class PrescriptionForm extends Component {
   constructor(props) {
@@ -11,10 +12,11 @@ class PrescriptionForm extends Component {
       year: null,
       month: null,
       day: null,
+      selectedIngredients: []
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleSuggestionSelected = this.handleSuggestionSelected.bind(this);
+    this.handleIngredientsSelected = this.handleIngredientsSelected.bind(this)
   }
 
   handleInputChange(event) {
@@ -27,8 +29,21 @@ class PrescriptionForm extends Component {
     this.props.onSubmit(this.state.patient);
   }
 
-  handleSuggestionSelected() {
-    debugger
+  handleIngredientsSelected(newIngredients, isFormula) {
+    let selectedIngredients = [];
+    if (isFormula) {
+      // Replace current ingredients with new formula ingredients
+      selectedIngredients = newIngredients
+    } else {
+      // Add new new ingredients and remove duplicated
+      const currentIngredients = this.state.selectedIngredients;
+      selectedIngredients = currentIngredients
+        .concat(newIngredients.filter((item) => {
+          return currentIngredients.indexOf(item) < 0;
+        }));
+    }
+
+    this.setState({ selectedIngredients });
   }
 
   render() {
@@ -78,10 +93,13 @@ class PrescriptionForm extends Component {
         <div className="form-group">
           <label>Ingredient of Formulation</label>
           <IngredientsAutosuggest
-            onSuggestionSelected={this.handleSuggestionSelected}
+            onIngredientsSelected={this.handleIngredientsSelected}
             placeholder="Type and ingredient or a formulation"
           />
         </div>
+        <SelectedIngredients
+          ingredients={this.state.selectedIngredients}
+        />
         <hr/>
         <button type="submit" className="btn btn-lg btn-primary btn-block">Save Prescription</button>
       </form>
