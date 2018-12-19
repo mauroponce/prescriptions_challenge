@@ -1,24 +1,10 @@
-# README
+## Run locally
+heroku local -f Procfile.dev
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
 
-Things you may want to cover:
+heroku login
+heroku create
+heroku apps:rename prescriptions-app
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+heroku buildpacks:add heroku/nodejs --index 1
+heroku buildpacks:add heroku/ruby --index 2
