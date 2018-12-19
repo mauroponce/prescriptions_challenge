@@ -17,44 +17,25 @@ class PrescriptionsController < ApplicationController
     data = [
       {
         title: 'Ingredients',
-        items: [
+        items: Ingredient.all.map do |ingredient|
           {
-            id: 1,
-            name: 'Allantoin',
-            minimum: 1,
-            maximum: 2,
-            description: 'Some Allantoin'
-          },
-          {
-            id: 2,
-            name: 'Aloe',
-            minimum: 1,
-            maximum: 2,
-            description: 'Some Aloe'
-          },
-          {
-            id: 9,
-            name: 'Caffeine',
-            minimum: 0.5,
-            maximum: 1.5,
-            description: 'Some coffee'
-          },
-        ]
+            id: ingredient.id,
+            name: ingredient.name,
+            minimum_percentage: ingredient.minimum_percentage,
+            maximum_percentage: ingredient.maximum_percentage,
+            description: ingredient.description
+          }
+        end
       },
       {
         title: 'Formulations',
-        items: [
+        items: Formulation.all.map do |formulation|
           {
-            id: 3,
-            name: 'A Crema 1',
-            ingredient_ids: [2, 9]
-          },
-          {
-            id: 4,
-            name: 'Crema 2',
-            ingredient_ids: [1, 2]
+            id: formulation.id,
+            name: formulation.name,
+            ingredient_ids: formulation.ingredient_ids
           }
-        ]
+        end
       }
     ];
 
