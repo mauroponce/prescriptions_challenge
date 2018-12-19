@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { YearPicker, MonthPicker, DayPicker } from 'react-dropdown-date';
+import { API } from '../utils/api';
 import IngredientsAutosuggest from './IngredientsAutosuggest';
 import SelectedIngredients from './SelectedIngredients';
 
@@ -7,26 +8,33 @@ class PrescriptionForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: null,
-      address: null,
       year: null,
       month: null,
       day: null,
       selectedIngredients: []
     };
 
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleIngredientsSelected = this.handleIngredientsSelected.bind(this)
+    this.handleIngredientsSelected = this.handleIngredientsSelected.bind(this);
+    this.handleRemoveSelectedIngredient = this.handleRemoveSelectedIngredient.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleInputChange(event) {
-    const target = event.target;
-    this.setState({ [target.name]: target.value });
+  formattedDate() {
+    debugger
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    this.props.onSubmit(this.state.patient);
+    // build params object
+    const params = new FormData(e.target);
+    // todo, format date and add with name prescription[dob]
+    //params.append
+    debugger
+    API.createSuggestion(params)
+      .then(res => {
+        debugger
+      });
+    //this.props.onSubmit(this.state.patient);
   }
 
   handleIngredientsSelected(newIngredients, isFormula) {
@@ -46,18 +54,28 @@ class PrescriptionForm extends Component {
     this.setState({ selectedIngredients });
   }
 
+  handleRemoveSelectedIngredient(ingredient) {
+    const selectedIngredients = this.state.selectedIngredients
+      .filter((item) => item.id !== ingredient.id);
+    this.setState({ selectedIngredients });
+  }
+
   render() {
     return (
-      <form className='prescription-form'>
+      <form className='prescription-form' onSubmit={this.handleSubmit} >
         <h2>New Prescription</h2>
         <div className="form-group">
           <label>Patient Name</label>
-          <input type="text" className="form-control" id="patientName" />
+          <input type="text" className="form-control"
+            name="prescription[patient_name]"
+          />
         </div>
 
         <div className="form-group">
           <label>Address</label>
-          <input type="text" className="form-control" id="patientAddress" />
+          <input type="text" className="form-control"
+            name="prescription[address]"
+          />
         </div>
 
         <div className="form-group">
@@ -99,6 +117,7 @@ class PrescriptionForm extends Component {
         </div>
         <SelectedIngredients
           ingredients={this.state.selectedIngredients}
+          removeIngredient={this.handleRemoveSelectedIngredient}
         />
         <hr/>
         <button type="submit" className="btn btn-lg btn-primary btn-block">Save Prescription</button>

@@ -20,6 +20,7 @@ class App extends Component {
   }
 
   onPrescriptionSubmit(prescription) {
+    debugger
     /*
     tras el submit en el form, q le mando al server
     patient
