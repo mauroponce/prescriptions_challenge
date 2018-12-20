@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import PrescriptionForm from './components/PrescriptionForm';
+import PrescriptionInfo from './components/PrescriptionInfo'
+import { BrowserRouter } from 'react-router-dom';
 
 class App extends Component {
   constructor(props) {
@@ -19,21 +22,21 @@ class App extends Component {
     this.setState({ selectedIngredients });
   }
 
-  onPrescriptionSubmit(prescription) {
-    debugger
-    /*
-    tras el submit en el form, q le mando al server
-    patient
-    const params = {
-      prescription: prescription
-    }
-    */
-  }
-
   render() {
     return (
       <div className="container">
-        <PrescriptionForm onSubmit={this.onPrescriptionSubmit} />
+        <BrowserRouter>
+          <Switch>
+            <Route exact path='/prescriptions/new' component={PrescriptionForm} />
+            <Route exact path='/prescriptions/:prescriptionId' component={PrescriptionInfo} />
+
+            <Route exact path='/'
+              render={() => (
+                <Redirect to='/prescriptions/new' />
+              )}
+            />
+          </Switch>
+        </BrowserRouter>
       </div>
     );
   }

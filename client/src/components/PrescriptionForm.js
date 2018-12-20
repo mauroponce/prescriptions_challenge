@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import { YearPicker, MonthPicker, DayPicker } from 'react-dropdown-date';
-import { API } from '../utils/api';
 import IngredientsAutosuggest from './IngredientsAutosuggest';
+import { API } from '../utils/api';
 import SelectedIngredients from './SelectedIngredients';
 
 class PrescriptionForm extends Component {
@@ -11,7 +12,8 @@ class PrescriptionForm extends Component {
       year: null,
       month: null,
       day: null,
-      selectedIngredients: []
+      selectedIngredients: [],
+      createdPrescriptionId: null
     };
 
     this.handleIngredientsSelected = this.handleIngredientsSelected.bind(this);
@@ -30,11 +32,10 @@ class PrescriptionForm extends Component {
     // todo, format date and add with name prescription[dob]
     //params.append
     debugger
-    API.createSuggestion(params)
+    API.createPrescription(params)
       .then(res => {
-        debugger
+        this.setState({ createdPrescriptionId: res.data.id })
       });
-    //this.props.onSubmit(this.state.patient);
   }
 
   handleIngredientsSelected(newIngredients, isFormula) {
@@ -61,6 +62,11 @@ class PrescriptionForm extends Component {
   }
 
   render() {
+    const { createdPrescriptionId, selectedIngredients } = this.state;
+    if (createdPrescriptionId) {
+      return <Redirect to={`/prescriptions/${createdPrescriptionId}`} />
+    }
+
     return (
       <form className='prescription-form' onSubmit={this.handleSubmit} >
         <h2>New Prescription</h2>
@@ -116,7 +122,7 @@ class PrescriptionForm extends Component {
           />
         </div>
         <SelectedIngredients
-          ingredients={this.state.selectedIngredients}
+          ingredients={selectedIngredients}
           removeIngredient={this.handleRemoveSelectedIngredient}
         />
         <hr/>

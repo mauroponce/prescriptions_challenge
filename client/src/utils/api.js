@@ -6,11 +6,16 @@ function getSuggestions() {
   return axios.get(`${PRESCRIPTIONS_URL}/suggestions`);
 }
 
-function createSuggestion(params) {
+function createPrescription(params) {
   return axios.post(`${PRESCRIPTIONS_URL}`, params);
+}
+
+function getPrescription(id) {
+  return axios.get(`${PRESCRIPTIONS_URL}/${id}`);
 }
 
 export const API = {
   getSuggestions: getSuggestions,
-  createSuggestion: createSuggestion
+  createPrescription: createPrescription,
+  getPrescription: getPrescription
 }

@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  resources :prescriptions, only: [:create] do
+  # TODO: version API
+  resources :prescriptions, only: [:create, :show] do
     collection do
       get :suggestions
     end
