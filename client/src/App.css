@@ -75,7 +75,7 @@ body {
   font-weight: 700;
 }
 
-.prescription-form {
+.prescription-form, .prescription-info {
   padding-top: 50px;
   width: 50%;
   margin: 0 auto;

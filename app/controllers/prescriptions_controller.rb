@@ -22,7 +22,22 @@ class PrescriptionsController < ApplicationController
 
   # GET /prescriptions/id
   def show
-    render json: @prescription
+    data = {
+      id: @prescription.id,
+      patient_name: @prescription.patient_name,
+      address: @prescription.address,
+      dob: @prescription.dob,
+      ingredients: @prescription.prescription_ingredients.map do |presc_ing|
+        ing = presc_ing.ingredient
+        {
+          id: ing.id,
+          name: ing.name,
+          description: ing.description,
+          percentage: presc_ing.percentage
+        }
+      end
+    }
+    render json: data
   end
 
   # GET /prescriptions/suggestions

@@ -21,17 +21,12 @@ class PrescriptionForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  formattedDate() {
-    debugger
-  }
-
   handleSubmit(e) {
     e.preventDefault();
     // build params object
     const params = new FormData(e.target);
     // todo, format date and add with name prescription[dob]
     //params.append
-    debugger
     API.createPrescription(params)
       .then(res => {
         this.setState({ createdPrescriptionId: res.data.id })
