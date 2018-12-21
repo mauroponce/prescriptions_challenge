@@ -1,7 +1,6 @@
 import React from 'react';
 
 const SelectedIngredients = (props) => {
-  // TODO: display minimum_percentage as default when it's not a formula.
   if(!props.ingredients.length) {
     return <h3 className="text-muted text-center">No ingredients yet</h3>
   }
@@ -18,7 +17,9 @@ const SelectedIngredients = (props) => {
             <input type="number" className="form-control"
               step="0.01" min={ingredient.minimum_percentage}
               max={ingredient.maximum_percentage}
-              name={`ingredients[${ingredient.id}]`}/>
+              value={ingredient.percentage}
+              onChange={(e) => props.onPercentageChange(ingredient, e)}
+            />
             <p>
               min: {ingredient.minimum_percentage},
               max: {ingredient.maximum_percentage}

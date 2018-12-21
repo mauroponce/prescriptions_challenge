@@ -80,3 +80,14 @@ body {
   width: 50%;
   margin: 0 auto;
 }
+
+.form-control.error {
+  border-color: #dc3545;
+}
+
+.invalid-field {
+  width: 100%;
+  margin-top: .25rem;
+  font-size: 80%;
+  color: #dc3545;
+}

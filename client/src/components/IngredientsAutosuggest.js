@@ -92,19 +92,29 @@ class IngredientsAutosuggest extends React.Component {
     });
   };
 
-  handleSuggestionSelected(event, { suggestion, suggestionValue, suggestionIndex, sectionIndex, method }) {
+  handleSuggestionSelected(_event, { suggestion }) {
     let ingredients = [];
-    const isFormula = 'ingredient_ids' in suggestion;
+    const isFormula = 'ingredients' in suggestion;
+    const stateIngs = this.state.data[0].items;
     if (isFormula) {
-      ingredients = this.state.data[0].items.filter(obj => {
-        return suggestion.ingredient_ids.includes(obj.id)
+      ingredients = suggestion.ingredients.map(sugg_ing => {
+        const matchingIngredient = stateIngs.find(obj => {
+          return sugg_ing.id === obj.id
+        });
+
+        return {...matchingIngredient, percentage: sugg_ing.percentage};
       });
     } else { // one ingredient selected at a time
-      ingredients = [this.state.data[0].items.find(obj => {
+      let ingredient = stateIngs.find(obj => {
         return suggestion.id === obj.id
-      })];
+      });
+      // when it's a default ingredient (no formulation percentage),
+      // use minimum percentage as default.
+      ingredients = [
+        { ...ingredient, percentage: ingredient.minimum_percentage}
+      ];
     }
-    this.setState({ value: '' }) // clean input
+    this.setState({ value: '' });
     this.props.onIngredientsSelected(ingredients, isFormula)
   }
 

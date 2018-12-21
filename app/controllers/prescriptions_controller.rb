@@ -4,16 +4,16 @@ class PrescriptionsController < ApplicationController
   # POST /prescriptions
   def create
     @prescription = Prescription.new(prescription_params)
-
     if @prescription.save
-      ingredients = params[:ingredients] || []
-      params[:ingredients].each do |ingredient_id, percentage|
+      ingredients = params[:prescription][:ingredients] || []
+      ingredients.each do |ing|
         PrescriptionIngredient.create(
           prescription: @prescription,
-          ingredient_id: ingredient_id,
-          percentage: percentage
+          ingredient_id: ing[:id],
+          percentage: ing[:percentage]
         )
       end
+
       render json: @prescription, status: :created
     else
       render json: @prescription.errors, status: :unprocessable_entity
@@ -61,7 +61,12 @@ class PrescriptionsController < ApplicationController
           {
             id: formulation.id,
             name: formulation.name,
-            ingredient_ids: formulation.ingredient_ids
+            ingredients: formulation.formulation_ingredients.map do |f_ing|
+              {
+                id: f_ing.ingredient_id,
+                percentage: f_ing.percentage
+              }
+            end
           }
         end
       }
