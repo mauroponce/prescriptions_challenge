@@ -19,6 +19,22 @@ class PrescriptionInfo extends Component {
       });
   }
 
+  renderIngredientBadges(ingredient) {
+    return (
+      <div>
+        {
+          ingredient.classes.map((badge, idx) => {
+            return (
+              <span key={`badge_${ingredient.id}_${idx}`}
+                className="badge badge-primary ingredient-badge">{badge}
+              </span>
+            );
+          })
+        }
+      </div>
+    );
+  }
+
   render() {
     const { prescription } = this.state;
     if (!prescription.ingredients.length) {
@@ -61,6 +77,7 @@ class PrescriptionInfo extends Component {
                     <small className="text-muted">
                       {ing.description}
                     </small>
+                    {this.renderIngredientBadges(ing)}
                   </div>
                   <span className="text-muted">{ing.percentage}</span>
                 </li>

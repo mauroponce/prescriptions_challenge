@@ -1,5 +1,6 @@
 class Ingredient < ApplicationRecord
   serialize :classes, Array
 
-  # TODO: Add validations
+  validates :name, presence: true
+  validates :description, presence: true
 end

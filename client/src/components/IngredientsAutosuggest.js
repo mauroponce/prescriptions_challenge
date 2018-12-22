@@ -40,15 +40,33 @@ class IngredientsAutosuggest extends React.Component {
     );
   }
 
+  renderIngredientBadges(ingredient) {
+    return (
+      <div>
+        {
+          ingredient.classes.map((badge, idx) => {
+            return (
+              <span key={`badge_${ingredient.id}_${idx}`}
+                className="badge badge-primary ingredient-badge">{badge}
+              </span>
+            );
+          })
+        }
+      </div>
+    );
+  }
+
   renderSuggestion(suggestion) {
-    const isFormulation = 'ingredient_ids' in suggestion;
+    const isFormulation = 'ingredients' in suggestion;
     if (isFormulation) {
-      suggestion.description = this.concatIngredientNames(suggestion.ingredient_ids);
+      const ingredientIds = suggestion.ingredients.map(ing => ing.id);
+      suggestion.description = this.concatIngredientNames(ingredientIds);
     }
     return (
       <div>
-        <div>{suggestion.name}</div>
-        <small>{suggestion.description}</small>
+        <h6 className='my-0'>{suggestion.name}</h6>
+        <small className='text-muted'>{suggestion.description}</small>
+        {!isFormulation && this.renderIngredientBadges(suggestion)}
       </div>
     );
   }
@@ -56,7 +74,7 @@ class IngredientsAutosuggest extends React.Component {
   concatIngredientNames(ingredientIds) {
     return this.state.data[0].items
       .filter(item => ingredientIds.includes(item.id))
-      .map(item => item.name).join(', ')
+      .map(item => item.name).join(', ');
   }
 
   getSuggestions(value) {

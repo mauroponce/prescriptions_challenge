@@ -33,7 +33,8 @@ class PrescriptionsController < ApplicationController
           id: ing.id,
           name: ing.name,
           description: ing.description,
-          percentage: presc_ing.percentage
+          percentage: presc_ing.percentage,
+          classes: ing.classes
         }
       end
     }
@@ -51,7 +52,8 @@ class PrescriptionsController < ApplicationController
             name: ingredient.name,
             minimum_percentage: ingredient.minimum_percentage.round(2),
             maximum_percentage: ingredient.maximum_percentage.round(2),
-            description: ingredient.description
+            description: ingredient.description,
+            classes: ingredient.classes
           }
         end
       },
