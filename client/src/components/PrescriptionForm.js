@@ -6,18 +6,6 @@ import IngredientsAutosuggest from './IngredientsAutosuggest';
 import { API } from '../utils/api';
 import SelectedIngredients from './SelectedIngredients';
 
-const formatDate = (date) => {	// formats a JS date to 'yyyy-mm-dd'
-  var d = new Date(date),
-    month = '' + (d.getMonth() + 1),
-    day = '' + d.getDate(),
-    year = d.getFullYear();
-
-  if (month.length < 2) month = '0' + month;
-  if (day.length < 2) day = '0' + day;
-
-  return [year, month, day].join('-');
-}
-
 class PrescriptionForm extends Component {
   constructor(props) {
     super(props);

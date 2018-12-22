@@ -75,10 +75,13 @@ body {
   font-weight: 700;
 }
 
-.prescription-form, .prescription-info {
-  padding-top: 50px;
-  width: 50%;
+.prescription-form, .page {
+  max-width: 540px;
   margin: 0 auto;
+}
+
+.prescription-form {
+  padding-top: 50px;
 }
 
 .form-control.error {

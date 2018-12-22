@@ -25,34 +25,49 @@ class PrescriptionInfo extends Component {
       return <h3 className="text-muted text-center">Loading...</h3>
     }
     return (
-      <div className='prescription-info'>
-        <h2 className='mb-3'>Prescription {prescription.id}</h2>
-        <dl>
-          <dt>Name</dt>
-          <dd>{prescription.patient_name}</dd>
+      <div className='page'>
+        <nav className="nav navbar navbar-light bg-light px-0 mb-4">
+          <ul className="navbar-nav mr-auto">
+            <li className="nav-item">
+              <a className="nav-link" href="/">
+                New Prescription
+              </a>
+            </li>
+          </ul>
+          <button
+            onClick={() => window.print()}
+            className="btn btn-outline-success"> Download
+          </button>
+        </nav>
+        <div className='prescription-info'>
+          <h2 className='mb-3'>Prescription {prescription.id}</h2>
+          <dl>
+            <dt>Name</dt>
+            <dd>{prescription.patient_name}</dd>
 
-          <dt>Address</dt>
-          <dd>{prescription.address}</dd>
+            <dt>Address</dt>
+            <dd>{prescription.address}</dd>
 
-          <dt>Date of Birth</dt>
-          <dd>{prescription.dob}</dd>
-        </dl>
-        <hr/>
-        <ul className="list-group">
-          {prescription.ingredients.map(ing => {
-            return (
-              <li key={ing.id} className="list-group-item d-flex justify-content-between">
-                <div>
-                  <h6 className="my-0">{ing.name}</h6>
-                  <small className="text-muted">
-                    {ing.description}
-                  </small>
-                </div>
-                <span className="text-muted">{ing.percentage}</span>
-              </li>
-            )
-          })}
-        </ul>
+            <dt>Date of Birth</dt>
+            <dd>{prescription.dob}</dd>
+          </dl>
+          <hr/>
+          <ul className="list-group">
+            {prescription.ingredients.map(ing => {
+              return (
+                <li key={ing.id} className="list-group-item d-flex justify-content-between">
+                  <div>
+                    <h6 className="my-0">{ing.name}</h6>
+                    <small className="text-muted">
+                      {ing.description}
+                    </small>
+                  </div>
+                  <span className="text-muted">{ing.percentage}</span>
+                </li>
+              )
+            })}
+          </ul>
+        </div>
       </div>
     );
   }

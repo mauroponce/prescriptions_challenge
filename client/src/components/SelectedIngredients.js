@@ -2,7 +2,7 @@ import React from 'react';
 
 const SelectedIngredients = (props) => {
   if(!props.ingredients.length) {
-    return <h3 className="text-muted text-center">No ingredients yet</h3>
+    return <h3 className="text-muted text-center my-5">No ingredients yet</h3>
   }
 
   const listItems = props.ingredients.map(ingredient => {
